@@ -54,14 +54,14 @@ class Module(BaseModule):
                 for site in sites:
                     r = self.request(site, redirect=False)
                     tmp = re.search(p,r.text)
-                    tmp_site = tmp.group(0).split('/')[2].split('.' + domain)[0] 
-                    
-                    if tmp_site not in subs and tmp_site != domain:                    
-                        subs.append(tmp_site)
-                        new = True
-                        host = '%s.%s' % (tmp_site, domain)
-                        self.output('%s' % (host))
-                        self.add_hosts(host)
+                    if tmp is not None:
+                        tmp_site = tmp.group(0).split('/')[2].split('.' + domain)[0]
+                        if tmp_site not in subs and tmp_site != domain:
+                            subs.append(tmp_site)
+                            new = True
+                            host = '%s.%s' % (tmp_site, domain)
+                            self.output('%s' % (host))
+                            self.add_hosts(host)
                 if not new:
                     # exit if all subdomains have been found
                     if u'>\u4e0b\u4e00\u9875&gt;<' not in content or page > 10:
